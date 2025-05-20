@@ -12,3 +12,7 @@ build
 
 # logs
 npm-debug.log*
+
+.next
+
+next-env.d.ts
