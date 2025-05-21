@@ -7,6 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <html>
+      <title>Todolist</title>
       <body>{children}</body>
     </html>
   )
