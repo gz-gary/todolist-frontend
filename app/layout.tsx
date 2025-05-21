@@ -1,3 +1,4 @@
+import SidebarWrapper from "@/components/SidebarWrapper";
 import React from "react";
 
 export default function RootLayout({
@@ -8,7 +9,7 @@ export default function RootLayout({
   return (
     <html>
       <title>Todolist</title>
-      <body>{children}</body>
+      <body><SidebarWrapper>{children}</SidebarWrapper></body>
     </html>
   )
 }
