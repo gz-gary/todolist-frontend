@@ -15,18 +15,16 @@ export default function SidebarWrapper({
 
   return (
     <div className={`${styles.wrapper} ${isOpen ? styles.open : ''}`}>
-      <div>
+      <div className={styles.sidebar}>
         <button onClick={() => setIsOpen(!isOpen)}>Toggle</button>
-        <nav>
-          <Link href="/items" className={pathName == '/items' ? 'active' : ''}>
-            Items
-          </Link>
-          <Link href="/about" className={pathName == '/about' ? 'active' : ''}>
-            About
-          </Link>
-        </nav>
+        <Link href="/items" className={pathName == '/items' ? 'active' : ''}>
+          Items
+        </Link>
+        <Link href="/about" className={pathName == '/about' ? 'active' : ''}>
+          About
+        </Link>
       </div>
-      <main>{children}</main>
+      <main className={styles.content}>{children}</main>
     </div>
   )
 }
