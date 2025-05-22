@@ -1,4 +1,5 @@
-import SidebarWrapper from '@/components/SidebarWrapper'
+import "@fontsource/roboto/400.css"
+import { Button } from '@mui/material'
 import React from 'react'
 import './global.css'
 
@@ -10,7 +11,10 @@ export default function RootLayout({
   return (
     <html>
       <title>Todolist</title>
-      <body><SidebarWrapper>{children}</SidebarWrapper></body>
+      <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width"/>
+      </head>
+      <body><Button variant="contained">Hello world</Button></body>
     </html>
   )
 }
