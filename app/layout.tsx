@@ -1,5 +1,5 @@
-import SidebarWrapper from "@/components/SidebarWrapper";
-import React from "react";
+import SidebarWrapper from '@/components/SidebarWrapper';
+import React from 'react';
 
 export default function RootLayout({
   children,
