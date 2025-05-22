@@ -1,9 +1,9 @@
 'use client'
 
-import styles from '@/components/styles.module.css';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import React, { useState } from 'react';
+import styles from '@/components/styles.module.css'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import React, { useState } from 'react'
 
 export default function SidebarWrapper({
   children
