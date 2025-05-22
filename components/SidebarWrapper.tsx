@@ -1,5 +1,6 @@
 'use client'
 
+import styles from "@/components/styles.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
@@ -13,8 +14,8 @@ export default function SidebarWrapper({
   const pathName = usePathname()
 
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ width: isOpen ? '200px' : '50px' }}>
+    <div className={`${styles.wrapper} ${isOpen ? styles.open : ''}`}>
+      <div>
         <button onClick={() => setIsOpen(!isOpen)}>Toggle</button>
         <nav>
           <Link href="/items" className={pathName == '/items' ? 'active' : ''}>
