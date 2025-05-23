@@ -15,7 +15,7 @@ export default function Frame({
 
   return (
     <>
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
         <Topbar
           handleMenuButtonClicked={
             () => {

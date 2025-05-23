@@ -28,7 +28,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="initial-scale=1, width=device-width"/>
       </head>
-      <body>
+      <body style={{ height: '100vh' }}>
         <AppRouterCacheProvider>
           <DarkModeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
             <ThemeProvider theme={theme}>
