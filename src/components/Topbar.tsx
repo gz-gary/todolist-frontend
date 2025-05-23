@@ -1,6 +1,10 @@
 import { appTitle } from '@/lib/constants'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import LightModeIcon from '@mui/icons-material/LightMode'
 import MenuIcon from '@mui/icons-material/Menu'
-import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material'
+import { useContext } from 'react'
+import { DarkModeContext } from 'theme'
 
 export default function Topbar({
   handleMenuButtonClicked
@@ -11,6 +15,7 @@ export default function Topbar({
   * { flexGrow: 1 } makes the label-div occupies all spaces
   * between buttons on the left and the right
   */
+  const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext)
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -29,7 +34,14 @@ export default function Topbar({
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {appTitle}
           </Typography>
-          <Button color="inherit" >Login</Button>
+          <IconButton
+            color="inherit"
+            onClick={() => {
+              setIsDarkMode(!isDarkMode)
+            }}
+          >
+            {isDarkMode ? <LightModeIcon/> : <DarkModeIcon/>}
+          </IconButton>
         </Toolbar>
       </AppBar>
     </Box>

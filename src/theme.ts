@@ -2,12 +2,16 @@
 
 import { useMediaQuery } from '@mui/material'
 import { createTheme } from '@mui/material/styles'
-import { useState } from 'react'
+import { createContext, useState } from 'react'
+
+export const DarkModeContext = createContext({
+  isDarkMode: false,
+  setIsDarkMode: (arg0: boolean) => {}
+})
 
 export default function getTheme() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const [isDarkMode, setIsDarkMode] = useState(prefersDarkMode)
-  const switchMode = () => { setIsDarkMode(!isDarkMode) }
 
   const theme = createTheme({
     typography: {
@@ -18,7 +22,5 @@ export default function getTheme() {
     },
   })
 
-  const switchTheme = switchMode
-
-  return { theme, switchTheme }
+  return { theme, isDarkMode, setIsDarkMode }
 }

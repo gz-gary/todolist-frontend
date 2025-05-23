@@ -1,13 +1,12 @@
 import Sidebar from '@/components/Sidebar'
 import Topbar from '@/components/Topbar'
-import { Box, Button } from '@mui/material'
+import { Box } from '@mui/material'
 import React, { useState } from 'react'
 
 export default function Frame({
-  children, onToggleThemeAction
+  children
 }: {
   children: React.ReactNode,
-  onToggleThemeAction: () => void
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const toggleSidebar = (isOpen: boolean) => {
@@ -24,10 +23,6 @@ export default function Frame({
             }
           }
         />
-
-        <Button variant="contained" onClick={onToggleThemeAction}>
-          SWITCH THEME
-        </Button>
         {children}
       </Box>
       <Sidebar 
