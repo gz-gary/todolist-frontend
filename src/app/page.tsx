@@ -2,6 +2,7 @@ export default function Page() {
   return (
     <>
       <h1>Hello, Next.js! This is a dashboard.</h1>
+      <h2>你好, Next.js!</h2>
       <ul>
         {Array.from({length: 5}, (_, i) => (
           <li key={i}>{i*2}</li>

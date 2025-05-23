@@ -4,10 +4,10 @@ import { Box, Button } from '@mui/material'
 import React, { useState } from 'react'
 
 export default function Frame({
-  children, handleSwitchTheme
+  children, onToggleThemeAction
 }: {
   children: React.ReactNode,
-  handleSwitchTheme: () => void
+  onToggleThemeAction: () => void
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const toggleSidebar = (isOpen: boolean) => {
@@ -25,7 +25,7 @@ export default function Frame({
           }
         />
 
-        <Button variant="contained" onClick={handleSwitchTheme}>
+        <Button variant="contained" onClick={onToggleThemeAction}>
           SWITCH THEME
         </Button>
         {children}
