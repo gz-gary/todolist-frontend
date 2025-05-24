@@ -18,7 +18,7 @@ export default function Topbar({
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext)
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', zIndex: 100 }}>
       <AppBar position='static'>
         <Toolbar>
           <IconButton
