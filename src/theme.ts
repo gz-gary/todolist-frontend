@@ -9,7 +9,7 @@ export const DarkModeContext = createContext({
   setIsDarkMode: (arg0: boolean) => {}
 })
 
-export default function getTheme() {
+export default function GetTheme() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const [isDarkMode, setIsDarkMode] = useState(prefersDarkMode)
 

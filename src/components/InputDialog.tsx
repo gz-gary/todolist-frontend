@@ -10,9 +10,6 @@ export default function InputDialog({
   setIsOpen: (arg0: boolean) => void,
   handleSubmit: (formJson: any) => void
 }) {
-  const handleClickOpen = () => {
-    setIsOpen(true);
-  };
   const handleClose = () => {
     setIsOpen(false);
   };
@@ -29,7 +26,7 @@ export default function InputDialog({
             const formData = new FormData(event.currentTarget)
             const formJson = Object.fromEntries((formData as any).entries())
             handleSubmit(formJson)
-            handleClose()
+            setIsOpen(false)
           }
         }
       }}

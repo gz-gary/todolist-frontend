@@ -58,8 +58,8 @@ export default function Todolist({ finished }: { finished: boolean }) {
 
   if (error) return `An error has occurred: ${error.message}`
 
-  const finishedList: TodolistItem[] = data.filter(({title, finished}) => finished)
-  const notFinishedList: TodolistItem[] = data.filter(({title, finished}) => !finished)
+  const finishedList: TodolistItem[] = data.filter(({title: _, finished}) => finished)
+  const notFinishedList: TodolistItem[] = data.filter(({title: _, finished}) => !finished)
 
   return (
     <Box sx={{

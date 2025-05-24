@@ -6,7 +6,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import { Roboto } from 'next/font/google'
 import React from 'react'
-import getTheme, { DarkModeContext } from 'theme'
+import GetTheme, { DarkModeContext } from 'theme'
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -20,7 +20,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const { theme, isDarkMode, setIsDarkMode } = getTheme()
+  const { theme, isDarkMode, setIsDarkMode } = GetTheme()
 
   return (
     <html lang="en" className={roboto.variable}>
