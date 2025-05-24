@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
 type TodolistItem = {
+  id: number,
   title: string,
   finished: boolean
 }
@@ -20,7 +21,7 @@ export default function Todolist({ finished }: { finished: boolean }) {
         .then(response => response.json() as Promise<TodolistItem[]>)
   })
 
-  const mutation = useMutation({
+  const mutationPost = useMutation({
     mutationFn: (item: TodolistItem) => {
       return fetch(
         `${apiUrl}/items`,
@@ -38,8 +39,27 @@ export default function Todolist({ finished }: { finished: boolean }) {
     }
   })
 
+  const mutationPatch = useMutation({
+    mutationFn: (item: TodolistItem) => {
+      return fetch(
+        `${apiUrl}/items/${item.id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(item),
+        }
+      )
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todolistItems'] })
+    }
+  })
+
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
+  /* Loading: skeleton */
   if (isPending) return (
     <Box sx={{ flex: 1 }}>
       <List sx={{ width: '100%', height: '100%' }}>
@@ -56,11 +76,13 @@ export default function Todolist({ finished }: { finished: boolean }) {
     </Box>
   )
 
+  /* Error: message */
   if (error) return `An error has occurred: ${error.message}`
 
   const finishedList: TodolistItem[] = data.filter(({title: _, finished}) => finished)
   const notFinishedList: TodolistItem[] = data.filter(({title: _, finished}) => !finished)
 
+  /* Ok: the Todolist */
   return (
     <Box sx={{
       flex: 1,
@@ -74,8 +96,8 @@ export default function Todolist({ finished }: { finished: boolean }) {
         <List>
           {
             (finished ? finishedList : notFinishedList).map(
-              ({title, finished}, index) => (
-                <ListItem key={index}>
+              ({id, title, finished}, _) => (
+                <ListItem key={id}>
                   <Card sx={{
                       display: 'flex',
                       justifyContent: 'space-between',
@@ -86,7 +108,20 @@ export default function Todolist({ finished }: { finished: boolean }) {
                       <Typography>{title}</Typography>
                     </CardContent>
                     <CardActions>
-                      <Checkbox defaultChecked={finished} disabled={finished}/>
+                      <Checkbox 
+                        defaultChecked={finished}
+                        disabled={finished}
+                        onChange={(event: React.ChangeEvent) => {
+                          const checked = (event.target as HTMLInputElement).checked;
+                          if (checked) {
+                            mutationPatch.mutate({
+                              id: id,
+                              title: title,
+                              finished: true
+                            })
+                          }
+                        }}
+                      />
                     </CardActions>
                   </Card>
                 </ListItem>
@@ -124,7 +159,7 @@ export default function Todolist({ finished }: { finished: boolean }) {
                 title: formJson.input,
                 finished: false,
               } as TodolistItem
-              mutation.mutate(item)
+              mutationPost.mutate(item)
             }}
           >
           </InputDialog>
