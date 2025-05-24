@@ -32,7 +32,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <DarkModeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
             <ThemeProvider theme={theme}>
-              <CssBaseline/>
+              <CssBaseline enableColorScheme/>
               <Frame>
                 {children}
               </Frame>
