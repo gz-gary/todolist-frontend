@@ -1,7 +1,7 @@
-import { apiUrl } from '@/lib/constants'
+// import { apiUrl } from '@/lib/constants'
 import AddIcon from '@mui/icons-material/Add'
 import { Box, Card, CardActions, CardContent, Checkbox, Fab, List, ListItem, Tooltip, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+// import { useQuery } from '@tanstack/react-query'
 
 type TodolistItem = {
   title: string,
@@ -9,6 +9,7 @@ type TodolistItem = {
 }
 
 export default function Todolist({ finished }: { finished: boolean }) {
+  /*
   const { isPending, error, data } = useQuery({
     queryKey: ['todolistItems'],
     queryFn: () =>
@@ -22,6 +23,7 @@ export default function Todolist({ finished }: { finished: boolean }) {
 
   const finishedList: TodolistItem[] = data.filter(({title, finished}) => finished)
   const notFinishedList: TodolistItem[] = data.filter(({title, finished}) => !finished)
+  */
 
   const testFinishedList: TodolistItem[] = [
     {title: 'Research report', finished: true},
@@ -31,33 +33,51 @@ export default function Todolist({ finished }: { finished: boolean }) {
     {title: 'Compilers Project', finished: false},
     {title: 'BDP Project', finished: false},
     {title: 'Compilers Homework', finished: false},
+    {title: 'Compilers Homework', finished: false},
+    {title: 'Compilers Homework', finished: false},
+    {title: 'Compilers Homework', finished: false},
+    {title: 'Compilers Homework', finished: false},
+    {title: 'Compilers Homework', finished: false},
+    {title: 'Compilers Homework', finished: false},
+    {title: 'Compilers Homework', finished: false},
+    {title: 'Compilers Homework', finished: false},
   ]
 
   return (
-    <Box sx={{ flex: 1, position: 'relative' }}>
-      <List>
-        {
-          (finished ? finishedList : notFinishedList).map(
-            ({title, finished}, index) => (
-              <ListItem key={index}>
-                <Card sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    width: '100%'
-                  }}
-                >
-                  <CardContent>
-                    <Typography>{title}</Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Checkbox defaultChecked={finished}/>
-                  </CardActions>
-                </Card>
-              </ListItem>
+    <Box sx={{
+      flex: 1,
+      position: 'relative',
+      display: 'flex',
+      minHeight: 0,
+      overflow: 'hidden',
+    }}
+    >
+      <Box sx={{ flex: 1, overflowY: 'auto' }}>
+        <List>
+          {
+            (finished ? testFinishedList : testNotFinishedList).map(
+              ({title, finished}, index) => (
+                <ListItem key={index}>
+                  <Card sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      width: '100%'
+                    }}
+                  >
+                    <CardContent>
+                      <Typography>{title}</Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Checkbox defaultChecked={finished} disabled={finished}/>
+                    </CardActions>
+                  </Card>
+                </ListItem>
+              )
             )
-          )
-        }
-      </List>
+          }
+        </List>
+      </Box>
+
       {
       !finished && (
         <Fab 
@@ -67,6 +87,7 @@ export default function Todolist({ finished }: { finished: boolean }) {
             position: 'absolute',
             bottom: 16,
             right: 16,
+            zIndex: 100
           }}
         >
           <Tooltip title="Add a new to-do">

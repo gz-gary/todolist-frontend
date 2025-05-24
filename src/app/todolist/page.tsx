@@ -13,7 +13,9 @@ export default function TodolistPage() {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          height: '100%',
+          flex: 1,
+          minHeight: 0,
+          overflow: 'hidden',
         }}
       >
         <Todolist finished={false}/>
