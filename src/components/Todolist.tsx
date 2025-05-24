@@ -1,7 +1,9 @@
-// import { apiUrl } from '@/lib/constants'
+import InputDialog from '@/components/InputDialog'
+import { apiUrl } from '@/lib/constants'
 import AddIcon from '@mui/icons-material/Add'
-import { Box, Card, CardActions, CardContent, Checkbox, Fab, List, ListItem, Tooltip, Typography } from '@mui/material'
-// import { useQuery } from '@tanstack/react-query'
+import { Box, Card, CardActions, CardContent, Checkbox, Fab, List, ListItem, Skeleton, Tooltip, Typography } from '@mui/material'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 
 type TodolistItem = {
   title: string,
@@ -9,7 +11,8 @@ type TodolistItem = {
 }
 
 export default function Todolist({ finished }: { finished: boolean }) {
-  /*
+  const queryClient = useQueryClient()
+
   const { isPending, error, data } = useQuery({
     queryKey: ['todolistItems'],
     queryFn: () =>
@@ -17,31 +20,46 @@ export default function Todolist({ finished }: { finished: boolean }) {
         .then(response => response.json() as Promise<TodolistItem[]>)
   })
 
-  if (isPending) return '...Loading'
+  const mutation = useMutation({
+    mutationFn: (item: TodolistItem) => {
+      return fetch(
+        `${apiUrl}/items`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(item),
+        }
+      )
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todolistItems'] })
+    }
+  })
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  if (isPending) return (
+    <Box sx={{ flex: 1 }}>
+      <List sx={{ width: '100%', height: '100%' }}>
+        <ListItem>
+          <Skeleton variant="rectangular" width="100%"></Skeleton>
+        </ListItem>
+        <ListItem>
+          <Skeleton variant="rectangular" width="100%"></Skeleton>
+        </ListItem>
+        <ListItem>
+          <Skeleton variant="rectangular" width="100%"></Skeleton>
+        </ListItem>
+      </List>
+    </Box>
+  )
 
   if (error) return `An error has occurred: ${error.message}`
 
   const finishedList: TodolistItem[] = data.filter(({title, finished}) => finished)
   const notFinishedList: TodolistItem[] = data.filter(({title, finished}) => !finished)
-  */
-
-  const testFinishedList: TodolistItem[] = [
-    {title: 'Research report', finished: true},
-  ]
-
-  const testNotFinishedList: TodolistItem[] = [
-    {title: 'Compilers Project', finished: false},
-    {title: 'BDP Project', finished: false},
-    {title: 'Compilers Homework', finished: false},
-    {title: 'Compilers Homework', finished: false},
-    {title: 'Compilers Homework', finished: false},
-    {title: 'Compilers Homework', finished: false},
-    {title: 'Compilers Homework', finished: false},
-    {title: 'Compilers Homework', finished: false},
-    {title: 'Compilers Homework', finished: false},
-    {title: 'Compilers Homework', finished: false},
-    {title: 'Compilers Homework', finished: false},
-  ]
 
   return (
     <Box sx={{
@@ -55,7 +73,7 @@ export default function Todolist({ finished }: { finished: boolean }) {
       <Box sx={{ flex: 1, overflowY: 'auto' }}>
         <List>
           {
-            (finished ? testFinishedList : testNotFinishedList).map(
+            (finished ? finishedList : notFinishedList).map(
               ({title, finished}, index) => (
                 <ListItem key={index}>
                   <Card sx={{
@@ -80,20 +98,37 @@ export default function Todolist({ finished }: { finished: boolean }) {
 
       {
       !finished && (
-        <Fab 
-          size="medium"
-          color="primary"
-          sx={{
-            position: 'absolute',
-            bottom: 16,
-            right: 16,
-            zIndex: 100
-          }}
-        >
-          <Tooltip title="Add a new to-do">
-            <AddIcon/>
-          </Tooltip>
-        </Fab>
+        <>
+          <Fab 
+            size="medium"
+            color="primary"
+            sx={{
+              position: 'absolute',
+              bottom: 16,
+              right: 16,
+              zIndex: 100
+            }}
+            onClick={() => {
+              setIsDialogOpen(true)
+            }}
+          >
+            <Tooltip title="Add a new to-do">
+              <AddIcon/>
+            </Tooltip>
+          </Fab>
+          <InputDialog 
+            isOpen={isDialogOpen}
+            setIsOpen={setIsDialogOpen}
+            handleSubmit={(formJson) => {
+              const item = {
+                title: formJson.input,
+                finished: false,
+              } as TodolistItem
+              mutation.mutate(item)
+            }}
+          >
+          </InputDialog>
+        </>
       )}
     </Box>
   )
