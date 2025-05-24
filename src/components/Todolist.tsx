@@ -1,12 +1,28 @@
+import { apiUrl } from '@/lib/constants'
 import AddIcon from '@mui/icons-material/Add'
 import { Box, Card, CardActions, CardContent, Checkbox, Fab, List, ListItem, Tooltip, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 
 type TodolistItem = {
   title: string,
   finished: boolean
 }
 
-export default function Todolist(finished: boolean) {
+export default function Todolist({ finished }: { finished: boolean }) {
+  const { isPending, error, data } = useQuery({
+    queryKey: ['todolistItems'],
+    queryFn: () =>
+      fetch(`${apiUrl}/items`)
+        .then(response => response.json() as Promise<TodolistItem[]>)
+  })
+
+  if (isPending) return '...Loading'
+
+  if (error) return `An error has occurred: ${error.message}`
+
+  const finishedList: TodolistItem[] = data.filter(({title, finished}) => finished)
+  const notFinishedList: TodolistItem[] = data.filter(({title, finished}) => !finished)
+
   const testFinishedList: TodolistItem[] = [
     {title: 'Research report', finished: true},
   ]
@@ -18,10 +34,10 @@ export default function Todolist(finished: boolean) {
   ]
 
   return (
-    <Box sx={{ flexGrow: 1, position: 'relative' }}>
+    <Box sx={{ flex: 1, position: 'relative' }}>
       <List>
         {
-          (finished ? testFinishedList : testNotFinishedList).map(
+          (finished ? finishedList : notFinishedList).map(
             ({title, finished}, index) => (
               <ListItem key={index}>
                 <Card sx={{
