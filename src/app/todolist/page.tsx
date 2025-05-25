@@ -1,14 +1,13 @@
 'use client'
 
 import Todolist from '@/components/Todolist'
+import { sharedQueryClient } from '@/lib/query'
 import { Box, Divider } from '@mui/material'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
-const queryClient = new QueryClient()
+import { QueryClientProvider } from '@tanstack/react-query'
 
 export default function TodolistPage() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={sharedQueryClient}>
       <Box 
         sx={{
           display: 'flex',

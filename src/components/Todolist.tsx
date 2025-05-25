@@ -1,15 +1,12 @@
+'use client'
+
 import InputDialog from '@/components/InputDialog'
 import { apiUrl } from '@/lib/constants'
+import { TodolistItem } from '@/lib/types'
 import AddIcon from '@mui/icons-material/Add'
 import { Box, Card, CardActions, CardContent, Checkbox, Fab, List, ListItem, Skeleton, Tooltip, Typography } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-
-type TodolistItem = {
-  id: number,
-  title: string,
-  finished: boolean
-}
 
 export default function Todolist({ finished }: { finished: boolean }) {
   const queryClient = useQueryClient()
