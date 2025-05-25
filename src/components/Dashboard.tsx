@@ -10,12 +10,22 @@ export default function Dashboard() {
     queryKey: ['todolistItems'],
     queryFn: () =>
       fetch(`${apiUrl}/items`)
-        .then(response => response.json() as Promise<TodolistItem[]>)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
+          return response.json()
+        })
+        .then(json => json as TodolistItem[])
   })
-  const content = isPending ? (<p>...Loading</p>) : (
-    error ? (<p>Error while fetching data</p>) : (
-      <p>{'Number of to-dos: ' + data.filter(({finished}) => !finished).length}</p>
-    )
+  const content = isPending ? (
+    <p>...Loading</p>
+  ) : error ? (
+    <p>{`Error while fetching data: ${error.message}`}</p>
+  ) : data ? (
+    <p>{'Number of to-dos: ' + data.filter(({ finished }) => !finished).length}</p>
+  ) : (
+    <p>No data</p>
   )
   return (
     <Box sx={{ p: 5 }}>

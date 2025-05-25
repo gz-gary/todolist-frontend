@@ -15,7 +15,13 @@ export default function Todolist({ finished }: { finished: boolean }) {
     queryKey: ['todolistItems'],
     queryFn: () =>
       fetch(`${apiUrl}/items`)
-        .then(response => response.json() as Promise<TodolistItem[]>)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
+          return response.json()
+        })
+        .then(json => json as TodolistItem[])
   })
 
   const mutationPost = useMutation({
