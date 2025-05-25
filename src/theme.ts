@@ -6,7 +6,7 @@ import { createContext, useState } from 'react'
 
 export const DarkModeContext = createContext({
   isDarkMode: false,
-  setIsDarkMode: (arg0: boolean) => {}
+  setIsDarkMode: (_arg0: boolean) => {}
 })
 
 export default function GetTheme() {

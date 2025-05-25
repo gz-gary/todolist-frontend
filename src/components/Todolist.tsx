@@ -76,8 +76,8 @@ export default function Todolist({ finished }: { finished: boolean }) {
   /* Error: message */
   if (error) return `An error has occurred: ${error.message}`
 
-  const finishedList: TodolistItem[] = data.filter(({title: _, finished}) => finished)
-  const notFinishedList: TodolistItem[] = data.filter(({title: _, finished}) => !finished)
+  const finishedList: TodolistItem[] = data.filter(({finished}) => finished)
+  const notFinishedList: TodolistItem[] = data.filter(({finished}) => !finished)
 
   /* Ok: the Todolist */
   return (
@@ -151,9 +151,10 @@ export default function Todolist({ finished }: { finished: boolean }) {
           <InputDialog 
             isOpen={isDialogOpen}
             setIsOpen={setIsDialogOpen}
-            handleSubmit={(formJson) => {
+            handleSubmit={(title: string | undefined) => {
+              if (!title) return;
               const item = {
-                title: formJson.input,
+                title: title,
                 finished: false,
               } as TodolistItem
               mutationPost.mutate(item)

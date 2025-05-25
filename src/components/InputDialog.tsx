@@ -8,7 +8,7 @@ export default function InputDialog({
 }: {
   isOpen: boolean,
   setIsOpen: (arg0: boolean) => void,
-  handleSubmit: (formJson: any) => void
+  handleSubmit: (title: string | undefined) => void
 }) {
   const handleClose = () => {
     setIsOpen(false);
@@ -24,8 +24,7 @@ export default function InputDialog({
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault()
             const formData = new FormData(event.currentTarget)
-            const formJson = Object.fromEntries((formData as any).entries())
-            handleSubmit(formJson)
+            handleSubmit(formData.get('input')?.toString())
             setIsOpen(false)
           }
         }
